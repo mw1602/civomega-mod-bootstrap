@@ -39,9 +39,11 @@ def get_legislator_info_by_name(name):
     legislators = legislator_search(first_name=name.first, middle_name=name.middle, last_name=name.last, name_suffix=name.suffix)
     return legislators
 
-def get_spending_info(legislator_list):
-
-
+def get_state_finance_info(state, year, findSpent, findRaised):
+    url = 'http://realtime.influenceexplorer.com/api/districts/?apikey=%s&district=%s&year=%s' % (get_api_key(),district,year)
+    resp = requests.get(url)
+    if findSpent:
+        pass
 
 
 
