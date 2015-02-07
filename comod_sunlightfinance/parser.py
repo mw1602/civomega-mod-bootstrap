@@ -12,6 +12,7 @@ from django.template import loader, Context
 from random import Random
 import requests
 import os
+from nameparser import HumanName
 
 def get_api_key():
     key = None
@@ -28,23 +29,17 @@ def get_api_key():
 
 
 def legislator_search(**kwargs): #looks up a congressperson given the keywords
+    url = 'https://congress.api.sunlightfoundation.com/legislators/?apikey=%s' % (get_api_key())
+    params  = ''.join('&%s=%s' % pair for pair in kwargs.iteritems())
+    resp = requests.get(url+params)
+    return resp.json()
 
-    if kwargs != {}:
-        url = 'https://congress.api.sunlightfoundation.com/legislators/?apikey=%s' % (get_api_key())
-        params  = ''.join('&%s=%s' % pair for pair in kwargs.iteritems())
-        resp = requests.get(url+params)
-        return resp.json()
-    else:
-        return {}
+def get_legislator_info_by_name(name):
+    name = HumanName(name).capitalize()
+    legislators = legislator_search(first_name=name.first, middle_name=name.middle, last_name=name.last, name_suffix=name.suffix)
+    return legislators
 
-def fec_query_by_legislator(names):
-    for name in names:
-
-
-        
-        legislator = legislator_search(name=name)
-        legislator_fec_ids = legislator['results'][0]['fec_ids']
-
+def get_spending_info(legislator_list):
 
 
 

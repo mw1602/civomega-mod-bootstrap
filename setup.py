@@ -15,6 +15,7 @@ setup(name='civomega-mod-sunlightfinance',
       #zip_safe=False,
       install_requires=[
          'requests',
+         'nameparser'
       ],
       entry_points="""
       # -*- Entry points: -*-
